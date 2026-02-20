@@ -7,22 +7,38 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14]
+    runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Install prerequisites
+      - name: Build and install OpenCV (Linux)
+        if: runner.os == 'Linux'
         run: |
           sudo apt update
-          sudo apt install -y g++
-          sudo apt install -y cmake
+          sudo apt install -y g++ cmake unzip wget
+          bash .github/scripts/linux/install_opencv.sh
 
-      - name: Build and install OpenCV
-        run: sudo bash .github/scripts/install_opencv_linux.sh;
+      - name: Build and install OpenCV + OpenMP (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          bash .github/scripts/macos/install_openmp.sh
+          bash .github/scripts/macos/install_opencv.sh
 
-      - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      - name: Configure CMake (Linux)
+        if: runner.os == 'Linux'
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+               -DOpenCV_DIR="/opt/opencv-4.11.0/lib/cmake/opencv4"
+
+      - name: Configure CMake (macOS)
+        if: runner.os == 'macOS'
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+               -DOpenCV_DIR="/opt/opencv-4.11.0/lib/cmake/opencv4" \
+               -DOpenMP_ROOT=$(brew --prefix libomp)
 
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}

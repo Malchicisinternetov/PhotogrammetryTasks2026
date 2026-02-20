@@ -19,11 +19,16 @@ find_package(OpenCV 4.11.0 REQUIRED)
 #      Linux:
 # sudo .github/scripts/install_opencv_linux.sh
 # укажите для CMake путь к OpenCV:
-# в CLion это делается через File->Settings->Build, Execution, Deployment->CMake->CMake options: -DOpenCV_DIR=/opt/opencv4.11.0/lib/cmake/opencv4
+# в CLion это делается через File->Settings->Build, Execution, Deployment->CMake->CMake options: -DOpenCV_DIR=/opt/opencv-4.11.0/lib/cmake/opencv4
 # там же сразу стоит добавить в дополнению к Debug сборке - сборку с включенными оптимизациями и отладочными символами - RelWithDebInfo
 #
 #     Windows: (но рекомендуется использовать Linux)
 # Скачайте этот скрипт и следуйте инструкции - https://gist.github.com/PolarNick239/18036d942ae4b9aad9f1da756ce6c845#file-buildocv-sh-L10-L33
+#
+#     MacOS: (но рекомендуется использовать Linux, MacOS не тестировался, только на github CI, а инструкция является галлюцинацией LLM)
+# sudo bash .github/scripts/macos/install_openmp.sh
+# bash .github/scripts/macos/install_opencv.sh
+# cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DOpenCV_DIR=/opt/opencv-4.11.0/lib/cmake/opencv4 -DOpenMP_ROOT="$(brew --prefix libomp)"
 
 set(SOURCES
         src/phg/sift/sift.cpp
