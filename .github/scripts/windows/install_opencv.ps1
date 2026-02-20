@@ -1,6 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-$RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
+$RepoRoot = $env:GITHUB_WORKSPACE
+if ([string]::IsNullOrEmpty($RepoRoot)) {
+  $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..\..")).Path
+}
 $DepsRoot = Join-Path $RepoRoot ".deps"
 $OcvVer   = "4.11.0"
 
