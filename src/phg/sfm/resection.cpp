@@ -99,12 +99,12 @@ namespace {
 
         // https://en.wikipedia.org/wiki/Random_sample_consensus#Parameters
         // будет отличаться от случая с гомографией
-        const int n_trials = 1000;
+        const int n_trials = 10000;
 
         const double threshold_px = 3;
 
         const int n_samples = 6;
-        uint64_t seed = 567643869;
+        uint64_t seed = 1;
 
         int best_support = 0;
         cv::Matx34d best_P;
