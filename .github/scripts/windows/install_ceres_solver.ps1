@@ -18,7 +18,7 @@ Invoke-WebRequest -Uri "https://github.com/ceres-solver/ceres-solver/archive/2.2
 Expand-Archive -Path "2.2.0.zip" -DestinationPath "."
 cd ceres-solver-2.2.0
 
-cmake -S . -B build `
+cmake -S . -B _build `
     -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" `
     -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
     -DVCPKG_TARGET_TRIPLET="x64-windows" `
