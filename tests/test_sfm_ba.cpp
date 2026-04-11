@@ -675,7 +675,7 @@ void runBA(std::vector<vector3d> &tie_points,
                     point_cameras_ids.push_back(pair.first);
                 }
                 vector3d ray_dir = cv::normalize(track_point - camera_origin);
-                constexpr double min_angle = 2.5 * M_PI / 180.0;
+                const double min_angle = 2.5 * 3.14159265358979323846 / 180.0;
                 for (int camera_id2 : point_cameras_ids) {
                     if (camera_id == camera_id2) continue;
                     matrix3d R2; vector3d camera_origin2;
